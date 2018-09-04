@@ -1,4 +1,4 @@
-*Note: this code is no longer actively maintained. However, feel free to use the Issues section to discuss the code with other users. Some users have updated this code for newer versions of Tensorflow and Python - see information below and Issues section.*
+* It is for replication of pointer-generator experiment
 
 ---
 
@@ -15,7 +15,35 @@ This code was developed for Tensorflow 0.12, but has been updated to run with Te
 In particular, the code in attention_decoder.py is based on [tf.contrib.legacy_seq2seq_attention_decoder](https://www.tensorflow.org/api_docs/python/tf/contrib/legacy_seq2seq/attention_decoder), which is now outdated.
 Tensorflow 1.0's [new seq2seq library](https://www.tensorflow.org/api_guides/python/contrib.seq2seq#Attention) probably provides a way to do this (as well as beam search) more elegantly and efficiently in the future.
 
-**Python 3 version**: This code is in Python 2. If you want a Python 3 version, see [@becxer's fork](https://github.com/becxer/pointer-generator/).
+## 1. Download data
+Download and unzip the `stories` directories from [here](http://cs.nyu.edu/~kcho/DMQA/) for both CNN and Daily Mail. 
+
+**Warning:** These files contain a few (114, in a dataset of over 300,000) examples for which the article text is missing - see for example `cnn/stories/72aba2f58178f2d19d3fae89d5f3e9a4686bc4bb.story`. The [Tensorflow code](https://github.com/abisee/pointer-generator) has been updated to discard these examples.
+
+## 2. Download Stanford CoreNLP
+We will need Stanford CoreNLP to tokenize the data. Download it [here](https://stanfordnlp.github.io/CoreNLP/) and unzip it. Then add the following command to your bash_profile:
+```
+export CLASSPATH=/path/to/stanford-corenlp-full-2016-10-31/stanford-corenlp-3.7.0.jar
+```
+replacing `/path/to/` with the path to where you saved the `stanford-corenlp-full-2016-10-31` directory. You can check if it's working by running
+```
+echo "Please tokenize this text." | java edu.stanford.nlp.process.PTBTokenizer
+```
+You should see something like:
+```
+Please
+tokenize
+this
+text
+.
+PTBTokenizer tokenized 5 tokens at 68.97 tokens per second.
+```
+## 3. Process into .bin and vocab files
+Run
+```
+python make_datafiles.py /path/to/cnn/stories /path/to/dailymail/stories
+```
+replacing `/path/to/cnn/stories` with the path to where you saved the `cnn/stories` directory that you downloaded; similarly for `dailymail/stories`.
 
 ## How to run
 
