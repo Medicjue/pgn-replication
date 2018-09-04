@@ -4,19 +4,6 @@
 
 This repository contains code for the ACL 2017 paper *[Get To The Point: Summarization with Pointer-Generator Networks](https://arxiv.org/abs/1704.04368)*. For an intuitive overview of the paper, read the [blog post](http://www.abigailsee.com/2017/04/16/taming-rnns-for-better-summarization.html).
 
-## Looking for test set output?
-The test set output of the models described in the paper can be found [here](https://drive.google.com/file/d/0B7pQmm-OfDv7MEtMVU5sOHc5LTg/view?usp=sharing).
-
-## Looking for pretrained model?
-A pretrained model is available here:
-* [Version for Tensorflow 1.0](https://drive.google.com/file/d/0B7pQmm-OfDv7SHFadHR4RllfR1E/view?usp=sharing)
-* [Version for Tensorflow 1.2.1](https://drive.google.com/file/d/0B7pQmm-OfDv7ZUhHZm9ZWEZidDg/view?usp=sharing)
-
-(The only difference between these two is the naming of some of the variables in the checkpoint. Tensorflow 1.0 uses `lstm_cell/biases` and `lstm_cell/weights` whereas Tensorflow 1.2.1 uses `lstm_cell/bias` and `lstm_cell/kernel`).
-
-**Note**: This pretrained model is *not* the exact same model that is reported in the paper. That is, it is the same architecture, trained with the same settings, but resulting from a different training run. Consequently this pretrained model has slightly lower ROUGE scores than those reported in the paper. This is probably due to us slightly overfitting to the randomness in our original experiments (in the original experiments we tried various hyperparameter settings and selected the model that performed best). Repeating the experiment once with the same settings did not perform quite as well. Better results might be obtained from further hyperparameter tuning.
-
-**Why can't you release the trained model reported in the paper?** Due to changes to the code between the original experiments and the time of releasing the code (e.g. TensorFlow version changes, lots of code cleanup), it is not possible to release the original trained model files. 
 
 ## Looking for CNN / Daily Mail data?
 Instructions are [here](https://github.com/abisee/cnn-dailymail).
