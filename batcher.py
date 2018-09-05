@@ -45,8 +45,8 @@ class Example(object):
 
     # Process the article
     article_words = article.split()
-    if len(article_words) > hps.max_enc_steps:
-      article_words = article_words[:hps.max_enc_steps]
+    if len(article_words) > hps.max_enc_steps.value:
+      article_words = article_words[:hps.max_enc_steps.value]
     self.enc_len = len(article_words) # store the length after truncation but before padding
     self.enc_input = [vocab.word2id(w) for w in article_words] # list of word ids; OOVs are represented by the id for UNK token
 
@@ -56,11 +56,11 @@ class Example(object):
     abs_ids = [vocab.word2id(w) for w in abstract_words] # list of word ids; OOVs are represented by the id for UNK token
 
     # Get the decoder input sequence and target sequence
-    self.dec_input, self.target = self.get_dec_inp_targ_seqs(abs_ids, hps.max_dec_steps, start_decoding, stop_decoding)
+    self.dec_input, self.target = self.get_dec_inp_targ_seqs(abs_ids, hps.max_dec_steps.value, start_decoding, stop_decoding)
     self.dec_len = len(self.dec_input)
 
     # If using pointer-generator mode, we need to store some extra info
-    if hps.pointer_gen:
+    if hps.pointer_gen.value:
       # Store a version of the enc_input where in-article OOVs are represented by their temporary OOV id; also store the in-article OOVs words themselves
       self.enc_input_extend_vocab, self.article_oovs = data.article2ids(article_words, vocab)
 
@@ -68,7 +68,7 @@ class Example(object):
       abs_ids_extend_vocab = data.abstract2ids(abstract_words, vocab, self.article_oovs)
 
       # Overwrite decoder target sequence so it uses the temp article OOV ids
-      _, self.target = self.get_dec_inp_targ_seqs(abs_ids_extend_vocab, hps.max_dec_steps, start_decoding, stop_decoding)
+      _, self.target = self.get_dec_inp_targ_seqs(abs_ids_extend_vocab, hps.max_dec_steps.value, start_decoding, stop_decoding)
 
     # Store the original strings
     self.original_article = article
@@ -235,7 +235,7 @@ class Batcher(object):
 
     # Initialize a queue of Batches waiting to be used, and a queue of Examples waiting to be batched
     self._batch_queue = Queue.Queue(self.BATCH_QUEUE_MAX)
-    self._example_queue = Queue.Queue(self.BATCH_QUEUE_MAX * self._hps.batch_size)
+    self._example_queue = Queue.Queue(self.BATCH_QUEUE_MAX * self._hps.batch_size.value)
 
     # Different settings depending on whether we're in single_pass mode or not
     if single_pass:

@@ -2,4 +2,6 @@
 finished_files/
 data/
 stanford-nlp/
+log/
+__pycache__/
 finished_files.zip
